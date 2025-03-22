@@ -103,53 +103,41 @@ $(function () {
     $("#i5").attr("data-value2", JSON.stringify(jsonData.item14));
     $("#i6").attr("data-value2", JSON.stringify(jsonData.item15));
 
-
+    // Main Event Handling
     $(".home-products-menu").on("mouseenter", function () {
-        var data = JSON.parse($(this).closest(".home-products-menu").attr("data-value2"));
-        var headingName = data.heading;
-        var descriptionData = data.description;
-        var src = data.href;
-        var declaration = ` <div class="home-products-contentDeclare col-lg-12">
-                        <div class="home-products-headingDetails col-lg-12">
-                            <h6>${headingName}</h6>
-                            <p>${descriptionData}</p>
-                        </div>
-                        <a href="${src}" class="btn-main">Learn More <span>></span></a>
-                    </div>
-                    `
+        const data = JSON.parse($(this).attr("data-value2"));
+        const headingName = data.heading;
+        const descriptionData = data.description;
+        const src = data.href;
 
+        const declaration = `
+        <div class="home-products-contentDeclare col-lg-12">
+            <div class="home-products-headingDetails col-lg-12">
+                <h6>${headingName}</h6>
+                <p>${descriptionData}</p>
+            </div>
+            <a href="${src}" class="btn-main">Learn More <span>></span></a>
+        </div>
+    `;
 
-        if (($(window).width() >= 768)) {
-            if ($(this).closest(".home-products-contentGrid").children().length <= 4) {
-                $(this).closest(".home-products-contentGrid").append(declaration);
+        const container = $(this).closest(".home-products-contentGrid");
 
+        // Remove existing declaration to prevent duplicates
+        container.find(".home-products-contentDeclare").remove();
 
-
-                console.log(descriptionData);
-            } else {
-                $(".home-products-menu").on("mouseleave", function () {
-                    $(this).closest(".home-products-contentGrid").find(".home-products-contentDeclare").remove();
-
-                });
+        // Append declaration based on screen size
+        if ($(window).width() >= 768) {
+            if (container.children(".home-products-contentDeclare").length === 0) {
+                container.append(declaration);
             }
-
         } else {
-
-            $(this).closest(".home-products-menu").append(declaration);
-
-
-
-            console.log(descriptionData);
-
-            $(".home-products-menu").on("mouseleave", function () {
-                $(this).closest(".home-products-contentGrid").find(".home-products-contentDeclare").remove();
-
-            });
-
+            $(this).append(declaration);
         }
 
-
-
+        // Mouse leave to remove declaration
+        container.on("mouseleave", function () {
+            $(this).find(".home-products-contentDeclare").remove();
+        });
     });
 
 
