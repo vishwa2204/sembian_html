@@ -131,7 +131,7 @@ $(function () {
                 container.append(declaration);
             }
         } else {
-            $(this).append(declaration);
+            $(this).append(declaration);    
         }
 
         // Mouse leave to remove declaration
